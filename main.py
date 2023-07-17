@@ -72,10 +72,14 @@ snake = Snake()
 
 class Fruit:
     def __init__(self):
-        self.pos = [random.randint(1, grid_size-2), random.randint(1, grid_size-2)]
+        self.image = pygame.image.load('images/apple.png').convert()
+        self.image = pygame.transform.scale(self.image, (cell_size, cell_size))
+        self.image.set_colorkey((0, 0, 0))
+        self.pos = [random.randint(1, grid_size - 2), random.randint(1, grid_size-2)]
 
     def draw(self):
-        pygame.draw.rect(screen, RED, (self.pos[0]*cell_size, self.pos[1]*cell_size, cell_size, cell_size))
+        screen.blit(self.image, (self.pos[0]*cell_size, self.pos[1]*cell_size))
+        # pygame.draw.rect(screen, RED, (self.pos[0]*cell_size, self.pos[1]*cell_size, cell_size, cell_size))
 
 fruit = Fruit()
 
@@ -83,10 +87,10 @@ class Wall:
     def update(self):
         # 畫出牆壁
         for i in range(grid_size):
-            pygame.draw.rect(screen, GREEN, (i*cell_size, 0, cell_size, cell_size))
-            pygame.draw.rect(screen, GREEN, (i*cell_size, (grid_size-1)*cell_size, cell_size, cell_size))
-            pygame.draw.rect(screen, GREEN, (0, i*cell_size, cell_size, cell_size))
-            pygame.draw.rect(screen, GREEN, ((grid_size-1)*cell_size, i*cell_size, cell_size, cell_size))
+            pygame.draw.rect(screen, GREEN, (i * cell_size, 0, cell_size, cell_size))
+            pygame.draw.rect(screen, GREEN, (i * cell_size, (grid_size-1) * cell_size, cell_size, cell_size))
+            pygame.draw.rect(screen, GREEN, (0, i * cell_size, cell_size, cell_size))
+            pygame.draw.rect(screen, GREEN, ((grid_size-1) * cell_size, i * cell_size, cell_size, cell_size))
 
 wall = Wall()
 
@@ -103,7 +107,7 @@ class EndGame:
             text_lines = "Game Over!\n空白鍵重新開始".split("\n")
             for i, line in enumerate(text_lines):
                 text = font.render(line, True, GRAY)
-                text_rect = text.get_rect(center=(window_size / 2, window_size / 2 + i * 30))
+                text_rect = text.get_rect(center=(window_size / 2, window_size / 2 + (i - 1) * 30))
                 screen.blit(text, text_rect)
 
 end_game = EndGame()
@@ -147,8 +151,9 @@ while running:
                 fruit = Fruit()
 
     # 檢查蛇是否撞到邊界或自身
-    if snake.elements[0][0] == 0 or snake.elements[0][1] == 0 or snake.elements[0][0] == grid_size-1 or snake.elements[0][1] == grid_size-1 or snake.elements[0] in snake.elements[1:]:
-        # running = False
+    if snake.elements[0][0] == 0 or snake.elements[0][1] == 0 \
+        or snake.elements[0][0] == grid_size-1 or snake.elements[0][1] == grid_size-1 \
+            or snake.elements[0] in snake.elements[1:]:
         end_running = True
         end_game.update(end_running)
 

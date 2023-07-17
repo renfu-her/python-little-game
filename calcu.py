@@ -32,11 +32,14 @@ buttons = {
     "C": pygame.Rect(10, 380, 70, 50)
 }
 
+# 畫按鈕, 並且填入文字, 而且置中
 def draw_button(screen, rect, text, font):
     pygame.draw.rect(screen, WHITE, rect, border_radius=5)
     text_draw = font.render(text, True, BLACK, WHITE)
-    screen.blit(text_draw, rect)
+    text_rect = text_draw.get_rect(center=rect.center)
+    screen.blit(text_draw, text_rect)
 
+# 計算方程式
 def calculate(equation):
     try:
         return str(eval(equation))
@@ -50,9 +53,12 @@ running = True
 while running:
     screen.fill(BLACK)
 
+    # 處理事件，按下視窗的叉叉，就結束遊戲
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+            
+        # 如果按下滑鼠左鍵
         elif event.type == pygame.MOUSEBUTTONDOWN:
             for key, rect in buttons.items():
                 if rect.collidepoint(event.pos):
