@@ -45,7 +45,7 @@ maze = [
 for y in range(7):
     for x in range(10):
         if maze[y][x] == 1:
-            canvas.create_rectangle(x*80, y*80, x*80+80, y*80+80, fill="gray")
+            canvas.create_rectangle(x*80, y*80, x*80+80, y*80+80, fill="skyblue", width=0)
 
 img = tkinter.PhotoImage(file="mimi_s.png")
 canvas.create_image(mx*80+40, my*80+40, image=img, tag="MYCHR")
